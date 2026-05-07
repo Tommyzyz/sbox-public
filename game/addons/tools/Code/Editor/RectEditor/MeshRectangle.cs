@@ -51,7 +51,7 @@ public partial class Document
 			StoreOriginalUVs();
 
 			var settings = Session?.Settings?.FastTextureSettings;
-			if ( settings != null && settings.SavedRectMin != settings.SavedRectMax )
+			if ( settings != null && settings.Mapping != MappingMode.UseExisting && settings.SavedRectMin != settings.SavedRectMax )
 			{
 				Min = settings.SavedRectMin;
 				Max = settings.SavedRectMax;

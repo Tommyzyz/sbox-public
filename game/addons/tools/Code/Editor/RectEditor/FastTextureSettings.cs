@@ -93,6 +93,7 @@ public class FastTextureSettings
 
 	[Hide] private Vector2 _savedRectMin = Vector2.Zero;
 	[Hide] private Vector2 _savedRectMax = Vector2.One;
+	[Hide] private int _gridSize = 16;
 
 	public FastTextureSettings()
 	{
@@ -295,6 +296,13 @@ public class FastTextureSettings
 	}
 
 	[Hide]
+	public int GridSize
+	{
+		get => _gridSize;
+		set => _gridSize = value;
+	}
+
+	[Hide]
 	public bool IsPickingEdge { get; set; }
 
 	[Category( "Alignment" ), Button( "Pick Edge", "border_vertical" )]
@@ -324,6 +332,7 @@ public class FastTextureSettings
 		public float InsetY { get; set; }
 		public Vector2 SavedRectMin { get; set; }
 		public Vector2 SavedRectMax { get; set; }
+		public int GridSize { get; set; }
 	}
 
 	public void Load()
@@ -350,6 +359,7 @@ public class FastTextureSettings
 			_insetY = dto.InsetY;
 			_savedRectMin = dto.SavedRectMin;
 			_savedRectMax = dto.SavedRectMax;
+			_gridSize = dto.GridSize > 0 ? dto.GridSize : 16;
 		}
 		catch
 		{
@@ -373,7 +383,8 @@ public class FastTextureSettings
 			InsetX = _insetX,
 			InsetY = _insetY,
 			SavedRectMin = _savedRectMin,
-			SavedRectMax = _savedRectMax
+			SavedRectMax = _savedRectMax,
+			GridSize = _gridSize
 		};
 
 		var json = JsonSerializer.Serialize( dto );
