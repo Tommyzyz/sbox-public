@@ -321,6 +321,9 @@ public partial class GameObject
 		{
 			if ( this is not PrefabScene )
 			{
+				// Set the persisted id first; nested mapping gap-fill is seeded by it.
+				DeserializeId( node );
+
 				InitPrefabInstance( prefabSource, true );
 
 				var prefabFile = PrefabFile.Load( PrefabInstance.PrefabSource );
@@ -338,6 +341,9 @@ public partial class GameObject
 		// Handle full prefab instances
 		else if ( node[JsonKeys.PrefabInstanceSource] is JsonValue __prefab && __prefab.TryGetValue( out prefabSource ) )
 		{
+			// Set the persisted id first; mapping gap-fill is seeded by it.
+			DeserializeId( node );
+
 			InitPrefabInstance( prefabSource, false );
 
 			var prefabFile = PrefabFile.Load( PrefabInstance.PrefabSource );
