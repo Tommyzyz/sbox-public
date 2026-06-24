@@ -1078,7 +1078,7 @@ public sealed unsafe partial class CommandList
 	{
 		static void Execute( ref Entry entry, CommandList commandList )
 		{
-			Graphics.Context.ClearTexture( ((Texture)entry.Object1).native, new Color( entry.Data1.x, entry.Data1.y, entry.Data1.z, entry.Data1.w ) );
+			((Texture)entry.Object1).Clear( new Color( entry.Data1.x, entry.Data1.y, entry.Data1.z, entry.Data1.w ) );
 		}
 
 		AddEntry( &Execute, new Entry { Object1 = texture, Data1 = new Vector4( color.r, color.g, color.b, color.a ) } );
@@ -1099,7 +1099,7 @@ public sealed unsafe partial class CommandList
 				return;
 			}
 
-			Graphics.Context.ClearTexture( target.ColorTarget.native, new Color( entry.Data1.x, entry.Data1.y, entry.Data1.z, entry.Data1.w ) );
+			target.ColorTarget.Clear( new Color( entry.Data1.x, entry.Data1.y, entry.Data1.z, entry.Data1.w ) );
 		}
 
 		AddEntry( &Execute, new Entry { Object5 = handle.ColorTexture.Name, Data1 = new Vector4( color.r, color.g, color.b, color.a ) } );
