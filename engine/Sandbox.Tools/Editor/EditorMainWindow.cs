@@ -322,6 +322,8 @@ public class EditorMainWindow : DockWindow
 		// Reopen last session's scenes so their docks exist before the layout is restored
 		SceneEditorSession.RestoreOpenSessions();
 
+		SetVisible( true );
+
 		// This will attempt to restore the last used layout (or default layout if first time)
 		// Which means it will create dock widgets and move them around
 		StateCookie = "SboxSceneEditor";
@@ -329,8 +331,6 @@ public class EditorMainWindow : DockWindow
 		EditorEvent.Run( "editor.created", this );
 
 		RebuildApps();
-
-		SetVisible( true );
 
 		// Register the main editor window as an SDL window and tell the input system it's the main window
 		// We need this for focusing and relative mouse capture mode
@@ -345,19 +345,21 @@ public class EditorMainWindow : DockWindow
 		SceneEditorSession.SaveOpenSessions();
 	}
 
-	protected override void RestoreDefaultDockLayout()
+	protected override void CreateDefaultDockLayout()
 	{
-		// hide everything, leaving the central scene area as the only visible dock
 		foreach ( var dock in DockManager.DockTypes )
 		{
 			DockManager.SetDockState( dock.Title, false );
 		}
 
 		// classic layout: hierarchy left, inspector right, asset browser + console under the scene
-		DockManager.OpenDock( "Hierarchy", DockArea.Left );
+		var hierarchy = DockManager.OpenDock( "Hierarchy", DockArea.Left );
 		DockManager.OpenDock( "Inspector", DockArea.Right );
 		var browser = DockManager.OpenDock( "Asset Browser", DockArea.Bottom, _centralDock );
 		DockManager.OpenDock( "Console", DockArea.Center, browser );
+
+		DockManager.SetSplitterProportions( hierarchy, 0.25f, 0.5f, 0.25f );
+		DockManager.SetSplitterProportions( browser, 0.75f, 0.25f );
 	}
 
 	/// <summary>
